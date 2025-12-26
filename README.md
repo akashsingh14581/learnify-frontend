@@ -1,31 +1,42 @@
-# React & Tailwind CSS Starter Pack
+# Learnify – Frontend
 
-This is a starter pack for creating React projects with Tailwind CSS configured. It uses React version **18.2** and Tailwind CSS version **3.2**.
+Learnify is a modern EdTech platform frontend currently under active development.  
+The goal of this project is to build a clean, responsive, and user-friendly learning interface for students and instructors.
 
-## Usage
+> ⚠️ **Status:** Work in Progress  
+> This project is still being developed. Features and UI are subject to change.
 
-This starter pack includes a basic setup for using **Tailwind CSS with React**. To start building your own components and styles, follow these steps:
+---
 
-1. Clone the repository to your local machine.
-    ```sh
-    git clone https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git
-    ```
+## 🚀 Tech Stack
+- React.js
+- Tailwind CSS
+- JavaScript (ES6+)
+- Axios
 
-1. Install the required packages.
-    ```sh
-    cd react-tailwind-css-starter-pack
-    npm install
-    ```
+---
 
-1. Start the development server.
-    ```sh
-    npm start
-    ```
-1. Open the project in your browser at [`http://localhost:3000`](http://localhost:3000) to view your project.
-1. Create your React components and add your styles using Tailwind classes. You can also create new CSS files and import them into your components.
+## ✨ Planned & Implemented Features
+- Authentication pages (Login / Signup)
+- Responsive UI using Tailwind CSS
+- Reusable React components
+- Student dashboard (in progress)
+- Instructor dashboard (planned)
+- Course listing UI (planned)
 
-The project is set up to use `postcss-cli` to process your CSS files. You can add your own `tailwind.config.js` file to customize your Tailwind setup.
+---
 
-## Contributing
+## 📸 Screenshots
+Screenshots will be added once major UI components are finalized.
 
-Contributions are welcome! If you have any suggestions or find any issues, please feel free to open an issue or a pull request.
+---
+
+## 🌐 Live Demo
+🚧 Not deployed yet (Work in Progress)
+
+---
+
+## 🛠️ Installation & Setup
+1. Clone the repository
+   ```bash
+   git clone https://github.com/akashsingh14581/learnify-frontend.git
