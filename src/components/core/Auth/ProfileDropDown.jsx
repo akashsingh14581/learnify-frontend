@@ -11,7 +11,7 @@ export default function ProfileDropdown() {
   const { user } = useSelector((state) => state.profile)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const ref = useRef(null)
 
   useOnClickOutside(ref, () => setOpen(false))

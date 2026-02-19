@@ -1,100 +1,112 @@
 import React, { useEffect, useState } from "react";
-import { Link, matchPath } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/Logo/Logo-Full-Light.png";
 import { NavbarLinks } from "../../data/navbar-links";
-import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FaCartShopping } from "react-icons/fa6";
-import { FaChevronDown } from "react-icons/fa6";
+import { FaCartShopping, FaChevronDown } from "react-icons/fa6";
 import ProfileDropDown from "../core/Auth/ProfileDropDown";
 import { apiConnector } from "../../services/apiconnector";
 import { categories } from "../../services/apis";
+
 function Navbar() {
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const { totalItems } = useSelector((state) => state.cart);
-  const location = useLocation();
+
   const [subLinks, setSubLinks] = useState([]);
 
   const fetchSublinks = async () => {
     try {
       const result = await apiConnector("GET", categories.CATEGORIES_API);
-      console.log("printing sublinks data", result);
       setSubLinks(result.data.data);
     } catch (error) {
-      console.log("could not fetch the catelog list", error.message);
+      console.log("could not fetch the catalog list", error.message);
     }
   };
+
   useEffect(() => {
     fetchSublinks();
   }, []);
 
-  const matchRoute = (route) => {
-    return matchPath(route, location.pathname);
-  };
   return (
-    <div className="w-full border h-14 border-b-[1px] border-b-richblack-700">
-      <div className="flex items-center justify-between w-11/12 h-full gap-5 mx-auto">
-        {/* logo */}
+    <div className="w-full h-14 border-b border-b-richblack-700">
+      <div className="flex items-center justify-between w-11/12 h-full mx-auto">
+        
+        {/* Logo */}
         <Link to="/">
           <img src={logo} alt="logo" width={160} loading="lazy" />
         </Link>
 
-        {/* navlink */}
+        {/* Nav Links */}
         <nav>
-          <ul className="flex items-center justify-center gap-5">
-            {NavbarLinks.map((link, index) => {
-              return (
-                <li key={index}>
-                  {link.title === "Catalog" ? (
-                    <div className="relative flex items-center gap-1 text-white cursor-pointer group">
-                      <p>{link.title} </p> <FaChevronDown />{" "}
-                      <div
-                        className="absolute invisible group-hover:visible bg-richblack-5 
-p-4 text-richblack-900 w-[300px]
-left-1/2 -translate-x-1/2 top-full mt-0
-shadow-md rounded-md z-50"
-                      >
-                        <div className="absolute w-4 h-4 rotate-45 -translate-x-1/2 -top-2 left-1/2 bg-richblack-5"></div>
-                        {subLinks?.length ? (
-                          subLinks.map((sublink, index) => (
-                            <Link to={`${sublink.link}`} key={index}>
-                              <p>{sublink.title}</p>
-                            </Link>
-                          ))
-                        ) : (
-                          <div></div>
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <Link
-                      className={`${
-                        matchRoute(link?.path) ? "text-yellow-5" : "text-white"
-                      }`}
-                      to={link?.path}
+          <ul className="flex items-center gap-6">
+            {NavbarLinks.map((link, index) => (
+              <li key={index}>
+                {link.title === "Catalog" ? (
+                  <div className="relative flex items-center gap-1 text-white cursor-pointer group">
+                    <p>{link.title}</p>
+                    <FaChevronDown />
+
+                    {/* Dropdown */}
+                    <div
+                      className="
+                        absolute top-full left-1/2 -translate-x-1/2
+                        w-[300px] rounded-md bg-richblack-5 p-4 text-richblack-900 shadow-md
+                        opacity-0 pointer-events-none
+                        group-hover:opacity-100 group-hover:pointer-events-auto
+                        transition-all duration-200 z-50
+                      "
                     >
-                      {" "}
-                      <p>{link.title}</p>{" "}
-                    </Link>
-                  )}
-                </li>
-              );
-            })}
+                      <div className="absolute w-4 h-4 rotate-45 -translate-x-1/2 -top-2 left-1/2 bg-richblack-5"></div>
+
+                      {subLinks?.length ? (
+                        subLinks.map((sublink, i) => (
+                          <Link to={sublink.link} key={i}>
+                            <p className="py-1 hover:text-blue-600">
+                              {sublink.title}
+                            </p>
+                          </Link>
+                        ))
+                      ) : (
+                        <p>No Categories</p>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <NavLink
+                    to={link.path}
+                    end={link.path === "/"}   // important for Home
+                    className={({ isActive }) =>
+                      `transition-colors duration-200 ${
+                        isActive
+                          ? "text-yellow-50"
+                          : "text-white hover:text-yellow-50"
+                      }`
+                    }
+                  >
+                    <p>{link.title}</p>
+                  </NavLink>
+                )}
+              </li>
+            ))}
           </ul>
         </nav>
 
-        {/* login/signup/dashboard */}
-        <div className="flex items-center justify-between gap-5">
+        {/* Right Section */}
+        <div className="flex items-center gap-5">
           {user && user?.accountType !== "Instructor" && (
             <Link to="/dashboard/cart" className="relative">
-              <FaCartShopping />
-              {totalItems > 0 && <span>{totalItems}</span>}
+              <FaCartShopping className="text-white text-lg" />
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-yellow-50 text-black text-xs px-1 rounded-full">
+                  {totalItems}
+                </span>
+              )}
             </Link>
           )}
 
           {token === null && (
-            <div className="flex gap-5">
+            <div className="flex gap-4">
               <Link to="/login">
                 <button className="px-4 py-2 text-white border rounded bg-richblack-800 border-richblack-700">
                   Log In
