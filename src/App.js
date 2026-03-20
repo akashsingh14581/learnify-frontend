@@ -9,7 +9,7 @@ import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import About from "./pages/About";
-import MyProfile from './components/core/Dashboard/SidebarLink'
+import MyProfile from './components/core/Dashboard/MyProfile'
 
 function App() {
   return (

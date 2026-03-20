@@ -13,7 +13,7 @@ export default function ProfileDropdown() {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const ref = useRef(null)
-
+  console.log("user hi nhi h", user);
   useOnClickOutside(ref, () => setOpen(false))
 
   if (!user) return null
@@ -22,7 +22,7 @@ export default function ProfileDropdown() {
     <button className="relative" onClick={() => setOpen(true)}>
       <div className="flex items-center gap-x-1">
         <img
-          src={user?.image}
+          src={user?.imageUrl}
           alt={`profile-${user?.firstName}`}
           className="aspect-square w-[30px] rounded-full object-cover"
         />

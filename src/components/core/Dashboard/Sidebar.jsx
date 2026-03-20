@@ -40,7 +40,7 @@ const Sidebar = () => {
       }} className='text-sm text-richblack-300 font-medium'>
         <div className='flex item-center gap-x-2'>
       <VscSignOut className="text-lg"/>
-      <span>ogout</span>
+      <span>Logout</span>
         </div>
       </button>
       </div>
