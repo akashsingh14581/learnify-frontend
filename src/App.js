@@ -10,7 +10,10 @@ import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import About from "./pages/About";
 import MyProfile from './components/core/Dashboard/MyProfile'
-
+import PrivateRoute from "./components/core/Auth/PrivateRoute";
+import Dashboard from "./pages/Dashboard"
+import Contact from "./pages/Contact";
+import Error from "./pages/Error"
 function App() {
   return (
     <div className="flex flex-col w-screen min-h-screen bg-richblack-900 font-inter">
@@ -61,7 +64,19 @@ function App() {
         />
 
         <Route path="about" element={<About />} />
-        <Route path="dashboard/my-profile" element={<MyProfile />} />
+        <Route element={
+          <privateRoute>
+            <Dashboard/>
+          </privateRoute>
+        }
+        
+        >
+          <Route path="/contact" element={<Contact />} />
+               <Route path="dashboard/my-profile" element={<MyProfile />} />
+                 {/* <Route path="dashboard/settings" element={<Setting />} /> */}
+           </Route>
+       
+         <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );
