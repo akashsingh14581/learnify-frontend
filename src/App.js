@@ -11,6 +11,8 @@ import UpdatePassword from "./pages/UpdatePassword";
 import About from "./pages/About";
 import MyProfile from './components/core/Dashboard/MyProfile'
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
+import Setting from "./components/core/Dashboard/Settings";
+import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
 import Dashboard from "./pages/Dashboard"
 import Contact from "./pages/Contact";
 import Error from "./pages/Error"
@@ -73,7 +75,8 @@ function App() {
         >
           <Route path="/contact" element={<Contact />} />
                <Route path="dashboard/my-profile" element={<MyProfile />} />
-                 {/* <Route path="dashboard/settings" element={<Setting />} /> */}
+                 <Route path="dashboard/settings" element={<Setting />} />
+                 <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
            </Route>
        
          <Route path="*" element={<Error />} />
