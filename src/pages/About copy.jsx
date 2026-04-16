@@ -19,7 +19,7 @@ const About = () => {
             <header>
                 Driving Innovation in Online Education for a 
                 <HighlightText text={"Brighter Future"}/>
-                <p>Studynotion is at the forefront of driving innovation in online education. We're passionate about creating a brighter future by offering cutting-edge courses, leveraging emerging technologies, and nurturing a vibrant learning community.</p>
+                <p>CodeElevator is at the forefront of driving innovation in online education. We're passionate about creating a brighter future by offering cutting-edge courses, leveraging emerging technologies, and nurturing a vibrant learning community.</p>
             </header>
             <div className='flex mx-auto gap-x-3'>
                 <img src={BannerImage1} alt='img1' />

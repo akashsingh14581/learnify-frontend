@@ -9,6 +9,7 @@ import TimelineSection from "../components/core/HomePage/TimelineSection";
 import LearnLanguageSection from "../components/core/HomePage/LearnLanguageSection";
 import InstructorSection from "../components/core/HomePage/InstructorSection"
 import Footer from "../components/common/Footer";
+import ReviewSection from "../components/core/HomePage/ReviewSection";
 import ExploreMore from '../components/core/HomePage/ExploreMore'
 function Home() {
   return (
@@ -106,7 +107,7 @@ function Home() {
             </div>
             <div className="flex flex-col gap-2 lg:flex-1">
               <p className="text-[16px]">
-                The modern StudyNotion is the dictates its own terms. Today, to
+                The modern CodeElevator is the dictates its own terms. Today, to
                 be a competitive specialist requires more than professional
                 skills.
               </p>
@@ -128,12 +129,11 @@ function Home() {
           <InstructorSection />
 
           <h2 className="my-20 text-4xl font-semibold text-center">Reviews from other learners</h2>
-          {/* review slider here */}
+           <ReviewSection />
         </div>
       </div>
 
-      {/* footer section */}
-      <div className="h-screen bg-black">
+      <div>
         <Footer></Footer>
       </div>
     </div>

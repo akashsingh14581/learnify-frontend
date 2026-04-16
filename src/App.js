@@ -16,6 +16,7 @@ import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
 import Dashboard from "./pages/Dashboard"
 import Contact from "./pages/Contact";
 import Error from "./pages/Error"
+import OAuthSuccess from './components/core/Auth/OAuthSuccess'
 function App() {
   return (
     <div className="flex flex-col w-screen min-h-screen bg-richblack-900 font-inter">
@@ -66,19 +67,20 @@ function App() {
         />
 
         <Route path="about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
         <Route element={
-          <privateRoute>
+          <PrivateRoute>
             <Dashboard/>
-          </privateRoute>
+          </PrivateRoute>
         }
         
         >
-          <Route path="/contact" element={<Contact />} />
+          
                <Route path="dashboard/my-profile" element={<MyProfile />} />
                  <Route path="dashboard/settings" element={<Setting />} />
                  <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
            </Route>
-       
+        <Route path="/oauth-success" element={<OAuthSuccess />} />
          <Route path="*" element={<Error />} />
       </Routes>
     </div>

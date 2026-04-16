@@ -24,7 +24,7 @@ const About = () => {
             </h1>
 
             <p className="text-sm sm:text-base text-richblack-200">
-              Studynotion is at the forefront of driving innovation in online
+              CodeElevator is at the forefront of driving innovation in online
               education. We're passionate about creating a brighter future by
               offering cutting-edge courses, leveraging emerging technologies,
               and nurturing a vibrant learning community.
