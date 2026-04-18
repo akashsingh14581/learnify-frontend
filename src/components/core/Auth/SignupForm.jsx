@@ -2,6 +2,7 @@ import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { FcGoogle } from "react-icons/fc"
+import { FaGithub } from "react-icons/fa"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
@@ -63,21 +64,18 @@ function SignupForm() {
     setAccountType(ACCOUNT_TYPE.STUDENT)
   }
 
+  // ✅ OAuth handlers (env based)
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:4000/auth/google"
+    window.location.href = `http://localhost:4000/auth/google`
+  }
+
+  const handleGithubLogin = () => {
+    window.location.href = `http://localhost:4000/auth/github`
   }
 
   const tabData = [
-    {
-      id: 1,
-      tabName: "Student",
-      type: ACCOUNT_TYPE.STUDENT,
-    },
-    {
-      id: 2,
-      tabName: "Instructor",
-      type: ACCOUNT_TYPE.INSTRUCTOR,
-    },
+    { id: 1, tabName: "Student", type: ACCOUNT_TYPE.STUDENT },
+    { id: 2, tabName: "Instructor", type: ACCOUNT_TYPE.INSTRUCTOR },
   ]
 
   return (
@@ -85,83 +83,65 @@ function SignupForm() {
       <Tab tabData={tabData} field={accountType} setField={setAccountType} />
 
       <form onSubmit={handleOnSubmit} className="flex w-full flex-col gap-y-4">
+        
+        {/* Name */}
         <div className="flex gap-x-4">
-          <label className="w-full">
-            <p className="mb-1 text-sm text-richblack-5">
-              First Name <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              type="text"
-              name="firstName"
-              value={firstName}
-              onChange={handleOnChange}
-              placeholder="Enter first name"
-              className="w-full rounded-lg bg-richblack-800 p-3 text-richblack-5"
-            />
-          </label>
-
-          <label className="w-full">
-            <p className="mb-1 text-sm text-richblack-5">
-              Last Name <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              type="text"
-              name="lastName"
-              value={lastName}
-              onChange={handleOnChange}
-              placeholder="Enter last name"
-              className="w-full rounded-lg bg-richblack-800 p-3 text-richblack-5"
-            />
-          </label>
-        </div>
-
-        <label>
-          <p className="mb-1 text-sm text-richblack-5">
-            Email Address <sup className="text-pink-200">*</sup>
-          </p>
           <input
             required
-            type="email"
-            name="email"
-            value={email}
+            type="text"
+            name="firstName"
+            value={firstName}
             onChange={handleOnChange}
-            placeholder="Enter email address"
+            placeholder="First name"
             className="w-full rounded-lg bg-richblack-800 p-3 text-richblack-5"
           />
-        </label>
+          <input
+            required
+            type="text"
+            name="lastName"
+            value={lastName}
+            onChange={handleOnChange}
+            placeholder="Last name"
+            className="w-full rounded-lg bg-richblack-800 p-3 text-richblack-5"
+          />
+        </div>
 
+        {/* Email */}
+        <input
+          required
+          type="email"
+          name="email"
+          value={email}
+          onChange={handleOnChange}
+          placeholder="Email address"
+          className="w-full rounded-lg bg-richblack-800 p-3 text-richblack-5"
+        />
+
+        {/* Passwords */}
         <div className="flex gap-x-4">
-          <label className="relative w-full">
-            <p className="mb-1 text-sm text-richblack-5">
-              Create Password <sup className="text-pink-200">*</sup>
-            </p>
+          <div className="relative w-full">
             <input
               required
               type={showPassword ? "text" : "password"}
               name="password"
               value={password}
               onChange={handleOnChange}
-              placeholder="Enter Password"
+              placeholder="Password"
               className="w-full rounded-lg bg-richblack-800 p-3 pr-10 text-richblack-5"
             />
             <span
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-10 cursor-pointer"
+              className="absolute right-3 top-3 cursor-pointer"
             >
               {showPassword ? (
-                <AiOutlineEyeInvisible size={22} fill="#AFB2BF" />
+                <AiOutlineEyeInvisible size={20} />
               ) : (
-                <AiOutlineEye size={22} fill="#AFB2BF" />
+                <AiOutlineEye size={20} />
               )}
             </span>
-          </label>
+          </div>
 
-          <label className="relative w-full">
-            <p className="mb-1 text-sm text-richblack-5">
-              Confirm Password <sup className="text-pink-200">*</sup>
-            </p>
+          <div className="relative w-full">
             <input
               required
               type={showConfirmPassword ? "text" : "password"}
@@ -173,44 +153,57 @@ function SignupForm() {
             />
             <span
               onClick={() => setShowConfirmPassword((prev) => !prev)}
-              className="absolute right-3 top-10 cursor-pointer"
+              className="absolute right-3 top-3 cursor-pointer"
             >
               {showConfirmPassword ? (
-                <AiOutlineEyeInvisible size={22} fill="#AFB2BF" />
+                <AiOutlineEyeInvisible size={20} />
               ) : (
-                <AiOutlineEye size={22} fill="#AFB2BF" />
+                <AiOutlineEye size={20} />
               )}
             </span>
-          </label>
+          </div>
         </div>
 
+        {/* Submit */}
         <button
           type="submit"
-          className="mt-6 rounded-lg bg-yellow-50 py-2 px-4 font-medium text-richblack-900"
+          className="mt-4 rounded-lg bg-yellow-50 py-2 px-4 font-medium text-richblack-900"
         >
           Create Account
         </button>
 
         {/* Divider */}
-        <div className="flex items-center gap-3 my-2">
+        <div className="flex items-center gap-3 my-3">
           <div className="h-[1px] flex-1 bg-richblack-700" />
           <p className="text-sm text-richblack-400">OR</p>
           <div className="h-[1px] flex-1 bg-richblack-700" />
         </div>
 
-        {/* Google Button */}
-       <button
-  type="button"
-  onClick={handleGoogleLogin}
-  className="flex items-center justify-center gap-3 rounded-lg border border-richblack-700 bg-richblack-800 py-3 px-4 font-medium text-richblack-5 hover:bg-richblack-700 transition-all"
->
-  <FcGoogle size={22} />
-  Continue with Google
-</button>
+        {/* OAuth Icons */}
+        <div className="flex justify-center gap-6">
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="p-3 rounded-full bg-richblack-800 hover:bg-richblack-700 transition-all"
+            title="Sign up with Google"
+          >
+            <FcGoogle size={24} />
+          </button>
 
-<p className="text-xs text-richblack-400 text-center mt-2">
-  * Signing up with Google will create a Student account by default.
-</p>
+          <button
+            type="button"
+            onClick={handleGithubLogin}
+            className="p-3 rounded-full bg-richblack-800 hover:bg-richblack-700 transition-all"
+            title="Sign up with GitHub"
+          >
+            <FaGithub size={24} />
+          </button>
+        </div>
+
+        {/* Note */}
+        <p className="text-xs text-richblack-400 text-center mt-2">
+          * OAuth signup creates a Student account by default.
+        </p>
       </form>
     </div>
   )

@@ -5,6 +5,7 @@ import { resetCart } from "../../slices/cartSlice"
 import { setUser } from "../../slices/profileSlice"
 import { apiConnector } from "../apiconnector"
 import { endpoints } from "../apis"
+import { getUserDetails } from "./profileAPI";
 
 const {
   SENDOTP_API,
@@ -87,32 +88,35 @@ export function login(email, password, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
+
     try {
       const response = await apiConnector("POST", LOGIN_API, {
         email,
         password,
       })
 
-      console.log("LOGIN API RESPONSE............", response)
-
       if (!response.data.success) {
         throw new Error(response.data.message)
       }
 
+      const token = response.data.token
+
+      // ✅ Save correctly
+      localStorage.setItem("token", token)
+
+      dispatch(setToken(token))
+
+      // ✅ fetch user properly
+      await dispatch(getUserDetails(token, navigate))
+
       toast.success("Login Successful")
-      dispatch(setToken(response.data.token))
-      const userImage = response.data?.user?.image
-        ? response.data.user.image
-        : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName} ${response.data.user.lastName}`
-      dispatch(setUser({ ...response.data.user, image: userImage }))
-      
-      localStorage.setItem("token", JSON.stringify(response.data.token))
-      localStorage.setItem("user", JSON.stringify(response.data.user))
       navigate("/dashboard/my-profile")
+
     } catch (error) {
       console.log("LOGIN API ERROR............", error)
       toast.error("Login Failed")
     }
+
     dispatch(setLoading(false))
     toast.dismiss(toastId)
   }

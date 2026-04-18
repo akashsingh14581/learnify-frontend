@@ -11,17 +11,33 @@ function OAuthSuccess() {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const token = searchParams.get("token");
+    const handleOAuthLogin = async () => {
+      const token = searchParams.get("token");
 
-    if (token) {
-      localStorage.setItem("token", JSON.stringify(token));
-      dispatch(setToken(token));
-      dispatch(getUserDetails(token, navigate));
-      navigate("/dashboard/my-profile");
-    } else {
-      navigate("/login");
-    }
-  }, [navigate, searchParams, dispatch]);
+      if (!token || token === "undefined") {
+        navigate("/login");
+        return;
+      }
+
+      try {
+        // ✅ Save token properly
+        localStorage.setItem("token", token);
+        dispatch(setToken(token));
+
+        // ✅ Wait for user details to load
+        await dispatch(getUserDetails(token, navigate));
+
+        // ✅ Navigate after data is ready
+        navigate("/dashboard/my-profile");
+      } catch (error) {
+        console.log("OAuth Error:", error);
+        localStorage.removeItem("token");
+        navigate("/login");
+      }
+    };
+
+    handleOAuthLogin();
+  }, [dispatch, navigate, searchParams]);
 
   return <div>Logging you in...</div>;
 }
