@@ -17,7 +17,7 @@ const RenderCartCourses = () => {
         cart.map((course, index) => (
             <div>
                 <div>
-                    <img src={course?.thumbnail} />
+                    <img src={course?.thumbnail} alt={course._id} />
                     <div>
                         <p>{course?.courseName}</p>
                         <p>{course?.category?.name}</p>

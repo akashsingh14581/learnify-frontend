@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {useForm} from "react-hook-form"
-import { apiConnector } from '../../services/apiconnector';
-import { contactusEndpoint } from '../../services/apis';
+// import { apiConnector } from '../../services/apiconnector';
+// import { contactusEndpoint } from '../../services/apis';
 import CountryCode from "../../data/countrycode.json"
 
 const ContactUsForm = () => {
@@ -125,7 +125,7 @@ const ContactUsForm = () => {
           type="number"
           id="phonenumber"
           placeholder="12345 67890"
-          className="flex-1 p-3 rounded-md text-black"
+          className="flex-1 p-3 rounded-md text-black min-w-[0]"
           {...register("phoneNo", {
             required: { value: true, message: "Please enter phone number" },
             maxLength: { value: 10, message: "Invalid phone number" },

@@ -1,7 +1,7 @@
 import "./App.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Home from "./pages/Home";
 import Navbar from "./components/common/Navbar";
@@ -21,27 +21,31 @@ import Contact from "./pages/Contact";
 import Error from "./pages/Error";
 import OAuthSuccess from "./components/core/Auth/OAuthSuccess";
 
-// 🔥 import your function
 import { getUserDetails } from "./services/operations/profileAPI";
+import Cart from "./components/core/Dashboard/Cart";
+import { ACCOUNT_TYPE } from "./utils/constants";
+import AddCourse from "./components/core/Dashboard/AddCourse";
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.profile);
 
-  // 🔥 MAIN FIX (user restore on refresh)
+  // ✅ Restore user on refresh (FIXED)
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (token) {
       dispatch(getUserDetails(token, navigate));
     }
-  }, []);
+  }, [dispatch, navigate]); // ✅ dependency added
 
   return (
     <div className="flex flex-col w-screen min-h-screen bg-richblack-900 font-inter">
       <Navbar />
 
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
 
         <Route
@@ -90,9 +94,9 @@ function App() {
         />
 
         <Route path="about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="contact" element={<Contact />} />
 
-        {/* 🔥 Protected Routes */}
+        {/* Protected Routes */}
         <Route
           element={
             <PrivateRoute>
@@ -106,9 +110,36 @@ function App() {
             path="dashboard/enrolled-courses"
             element={<EnrolledCourses />}
           />
+
+          {/* ✅ Student Routes */}
+          <Route
+            path="dashboard/cart"
+            element={
+              user?.accountType === ACCOUNT_TYPE.STUDENT ? (
+                <Cart />
+              ) : (
+                <Error />
+              )
+            }
+          />
+
+          {/* ✅ Instructor Routes */}
+          <Route
+            path="dashboard/add-course"
+            element={
+              user?.accountType === ACCOUNT_TYPE.INSTRUCTOR ? (
+                <AddCourse />
+              ) : (
+                <Error />
+              )
+            }
+          />
         </Route>
 
+        {/* OAuth */}
         <Route path="/oauth-success" element={<OAuthSuccess />} />
+
+        {/* Fallback */}
         <Route path="*" element={<Error />} />
       </Routes>
     </div>
