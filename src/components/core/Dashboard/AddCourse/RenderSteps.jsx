@@ -2,6 +2,10 @@ import React from "react";
 import { FaCheck } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
+import CourseInformationForm from "./CourseInformation/CourseInformationForm";
+import CourseBuilderForm from "./CourseBuilder/CourseBuilderForm";
+import PublishCourse from "./PublishCourse";
+
 const RenderSteps = () => {
   const { step } = useSelector((state) => state.course);
   const steps = [
@@ -20,22 +24,40 @@ const RenderSteps = () => {
   ];
 
   return (
-    <div>
-<div>
-      {steps.map((item) => (
-        <div
-          key={item.id}
-          className={`${step === item.id ? "bg-yellow-900 border-yellow-50 text-yellow-50" : "border-richblack-700 bg-richblack-800 text-richblack-300"}`}
-        >
-          {step > item.id ? (<FaCheck />) : (item.id)}
-        </div>
-      ))}
-    </div>
-    <div>
+    <>
+      <div className="mb-8 flex items-center justify-center gap-x-4">
+        {steps.map((item, index) => (
+          <React.Fragment key={item.id}>
+            <div className="flex flex-col items-center gap-y-1">
+              <div
+                className={`grid h-10 w-10 place-items-center rounded-full border-[1px] font-semibold
+                  ${
+                    step === item.id
+                      ? "border-yellow-50 bg-yellow-900 text-yellow-50"
+                      : step > item.id
+                      ? "border-richblack-500 bg-richblack-500 text-richblack-50"
+                      : "border-richblack-700 bg-richblack-800 text-richblack-300"
+                  }`}
+              >
+                {step > item.id ? <FaCheck /> : item.id}
+              </div>
+              <p className="text-xs text-richblack-300">{item.title}</p>
+            </div>
+            {index !== steps.length - 1 && (
+              <div
+                className={`h-[2px] w-[60px] ${
+                  step > item.id ? "bg-richblack-500" : "bg-richblack-700"
+                }`}
+              />
+            )}
+          </React.Fragment>
+        ))}
+      </div>
 
-    </div>
-    </div>
-    
+      {step === 1 && <CourseInformationForm />}
+      {step === 2 && <CourseBuilderForm />}
+      {step === 3 && <PublishCourse />}
+    </>
   );
 };
 

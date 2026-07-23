@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {useForm} from "react-hook-form"
-// import { apiConnector } from '../../services/apiconnector';
-// import { contactusEndpoint } from '../../services/apis';
+import { submitContactForm } from '../../services/operations/contactusAPI';
 import CountryCode from "../../data/countrycode.json"
 
 const ContactUsForm = () => {
@@ -14,13 +13,10 @@ const ContactUsForm = () => {
         formState: {errors, isSubmitSuccessful}
     } = useForm();
 
-    const submitContactForm = async(data) => {
-        console.log("Logging Data" , data);
+    const handleContactForm = async(data) => {
         try{
             setLoading(true);
-            // const response = await apiConnector("POST", contactusEndpoint.CONTACT_US_API, data);
-            const response = {status:"OK"};
-            console.log("Logging response", response);
+            await submitContactForm(data);
             setLoading(false);
         }
         catch(error) {
@@ -44,7 +40,7 @@ const ContactUsForm = () => {
 
   return (
   <form
-  onSubmit={handleSubmit(submitContactForm)}
+  onSubmit={handleSubmit(handleContactForm)}
 >
   <div className="flex flex-col gap-8">
 

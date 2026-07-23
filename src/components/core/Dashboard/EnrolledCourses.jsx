@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { getUserEnrolledCourses } from '../../../services/operations/profileAPI'
 import ProgressBar from '@ramonak/react-progress-bar'
 
 const EnrolledCourses = () => {
 
   const { token } = useSelector((state) => state.auth)
+  const navigate = useNavigate()
 
   const [enrolledCourses, setEnrolledCourses] = useState(null)
 
-  // ✅ useCallback to fix dependency warning
   const fetchEnrolledCourses = useCallback(async () => {
     try {
       const response = await getUserEnrolledCourses(token)
@@ -26,43 +27,36 @@ const EnrolledCourses = () => {
   return (
     <div className='text-white'>
 
-      <div>Enrolled Courses</div>
+      <h1 className='mb-8 text-3xl font-medium'>Enrolled Courses</h1>
 
       {
         !enrolledCourses ? (
           <div>Loading...</div>
         ) : !enrolledCourses.length ? (
-          <p>You have not enrolled in any course yet</p>
+          <p className='text-richblack-300'>You have not enrolled in any course yet</p>
         ) : (
-          <div>
-            <div>
-              <p>Course Name</p>
-              <p>Durations</p>
-              <p>Progress</p>
-            </div>
-
+          <div className='space-y-4'>
             {
               enrolledCourses.map((course, index) => (
-                <div key={course._id || index}> {/* ✅ key added */}
+                <div
+                  key={course._id || index}
+                  onClick={() => navigate(`/view-course/${course._id}`)}
+                  className='flex cursor-pointer flex-col gap-4 rounded-md border border-richblack-700 bg-richblack-800 p-4 sm:flex-row sm:items-center'
+                >
 
-                  <div>
-                    <img 
-                      src={course.thumbnail} 
-                      alt="course thumbnail"   // ✅ alt added
-                    />
+                  <img
+                    src={course.thumbnail}
+                    alt="course thumbnail"
+                    className='h-[100px] w-[160px] rounded-md object-cover'
+                  />
 
-                    <div>
-                      <p>{course.courseName}</p>
-                      <p>{course.courseDescription}</p>
-                    </div>
+                  <div className='flex-1'>
+                    <p className='font-semibold'>{course.courseName}</p>
+                    <p className='mt-1 text-sm text-richblack-300 line-clamp-2'>{course.courseDescription}</p>
                   </div>
 
-                  <div>
-                    {course?.totalDuration}
-                  </div>
-
-                  <div>
-                    <p>Progress: {course.progressPercentage || 0}%</p>
+                  <div className='sm:w-[150px]'>
+                    <p className='mb-1 text-sm text-richblack-300'>Progress: {course.progressPercentage || 0}%</p>
                     <ProgressBar
                       completed={course.progressPercentage || 0}
                       height='8px'

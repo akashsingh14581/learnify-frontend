@@ -25,6 +25,13 @@ import { getUserDetails } from "./services/operations/profileAPI";
 import Cart from "./components/core/Dashboard/Cart";
 import { ACCOUNT_TYPE } from "./utils/constants";
 import AddCourse from "./components/core/Dashboard/AddCourse";
+import Catalog from "./pages/Catalog";
+import CourseDetails from "./pages/CourseDetails";
+import InstructorCourses from "./components/core/Dashboard/InstructorCourses";
+import InstructorDashboard from "./components/core/Dashboard/InstructorDashboard";
+import ViewCourse from "./pages/ViewCourse";
+import VideoDetails from "./components/core/ViewCourse/VideoDetails";
+import PurchaseHistory from "./components/core/Dashboard/PurchaseHistory";
 
 function App() {
   const dispatch = useDispatch();
@@ -95,6 +102,8 @@ function App() {
 
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="catalog/:catalogName" element={<Catalog />} />
+        <Route path="courses/:courseId" element={<CourseDetails />} />
 
         {/* Protected Routes */}
         <Route
@@ -122,6 +131,16 @@ function App() {
               )
             }
           />
+          <Route
+            path="dashboard/purchase-history"
+            element={
+              user?.accountType === ACCOUNT_TYPE.STUDENT ? (
+                <PurchaseHistory />
+              ) : (
+                <Error />
+              )
+            }
+          />
 
           {/* ✅ Instructor Routes */}
           <Route
@@ -133,6 +152,51 @@ function App() {
                 <Error />
               )
             }
+          />
+          <Route
+            path="dashboard/edit-course/:courseId"
+            element={
+              user?.accountType === ACCOUNT_TYPE.INSTRUCTOR ? (
+                <AddCourse />
+              ) : (
+                <Error />
+              )
+            }
+          />
+          <Route
+            path="dashboard/my-courses"
+            element={
+              user?.accountType === ACCOUNT_TYPE.INSTRUCTOR ? (
+                <InstructorCourses />
+              ) : (
+                <Error />
+              )
+            }
+          />
+          <Route
+            path="dashboard/instructor"
+            element={
+              user?.accountType === ACCOUNT_TYPE.INSTRUCTOR ? (
+                <InstructorDashboard />
+              ) : (
+                <Error />
+              )
+            }
+          />
+        </Route>
+
+        {/* View Course (video player) - protected, nested route holds the active lecture */}
+        <Route
+          element={
+            <PrivateRoute>
+              <ViewCourse />
+            </PrivateRoute>
+          }
+        >
+          <Route path="view-course/:courseId" element={<VideoDetails />} />
+          <Route
+            path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
+            element={<VideoDetails />}
           />
         </Route>
 
